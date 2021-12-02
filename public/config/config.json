@@ -1,0 +1,18 @@
+{
+  "CONTRACT_ADDRESS": "0xcc835170429026eAAeF7676DB321c8F389f6Ff00",
+  "SCAN_LINK": "https://polygonscan.com/address/0xcc835170429026eAAeF7676DB321c8F389f6Ff00",
+  "NETWORK": {
+    "NAME": "Polygon",
+    "SYMBOL": "MATIC",
+    "ID": 137
+  },
+  "NFT_NAME": "CutieSquad Meet The Fam",
+  "SYMBOL": "CUTIE",
+  "MAX_SUPPLY": 10000,
+  "WEI_COST": 50000000000000000000,
+  "DISPLAY_COST": 50,
+  "GAS_LIMIT": 9000000,
+  "MARKETPLACE": "Opeansea",
+  "MARKETPLACE_LINK": "",
+  "SHOW_BACKGROUND": false
+}
