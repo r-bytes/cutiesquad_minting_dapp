@@ -81,7 +81,7 @@ export const StyledLogo = styled.img`
 
 export const StyledImg = styled.img`
   box-shadow: 0px 5px 11px 2px rgba(0, 0, 0, 0.7);
-  border: 4px dashed var(--secondary);
+  border: 4px solid var(--secondary);
   background-color: var(--accent);
   border-radius: 100%;
   width: 200px;
@@ -151,7 +151,7 @@ function App() {
                     try {
                         await waitTransaction(blockchain.web3, transactionHash, 500, 2)
                         setFeedback(
-                            `Congrats!! The ${CONFIG.NFT_NAME} is yours! go visit https://opensea.io/account to view it.`
+                            `Congrats!! The ${CONFIG.NFT_NAME} is yours! go visit OpenSea to view it.`
                         );
                         setClaimingNft(false);
                         dispatch(fetchData(blockchain.account));
@@ -194,7 +194,7 @@ function App() {
     };
 
     const getConfig = async () => {
-        const configResponse = await fetch("/CSMTF/config/config.json", {
+        const configResponse = await fetch("/rotr/config/config.json", {
             headers: {
                 "Content-Type": "application/json",
                 Accept: "application/json",
@@ -205,7 +205,7 @@ function App() {
         let rp = new Web3(new Web3.providers.HttpProvider("https://polygon-mainnet.g.alchemy.com/v2/XSmh1jwhlAmlGZgF3pqlY7wTYkNsJBDM"))
 
 
-        let abiResponse = await fetch("/CSMTF/config/abi.json", {
+        let abiResponse = await fetch("/rotr/config/abi.json", {
             headers: {
                 "Content-Type": "application/json",
                 Accept: "application/json",
@@ -236,13 +236,13 @@ function App() {
                 flex={1}
                 ai={"center"}
                 style={{padding: 24, backgroundColor: "var(--primary)"}}
-                image={CONFIG.SHOW_BACKGROUND ? "/CSMTF/config/images/bg.png" : null}
+                image={CONFIG.SHOW_BACKGROUND ? "/rotr/config/images/bg.png" : null}
             >
-                <StyledLogo alt={"logo"} src={"/CSMTF/config/images/logo.png"}/>
+                <StyledLogo alt={"logo"} src={"/rotr/config/images/logo.png"}/>
                 <s.SpacerSmall/>
                 <ResponsiveWrapper flex={1} style={{padding: 24}} test>
                     <s.Container flex={1} jc={"center"} ai={"center"}>
-                        <StyledImg alt={"example"} src={"/CSMTF/config/images/example.gif"}/>
+                        <StyledImg alt={"example"} src={"/rotr/config/images/example.gif"}/>
                     </s.Container>
                     <s.SpacerLarge/>
                     <s.Container
@@ -253,7 +253,7 @@ function App() {
                             backgroundColor: "var(--accent)",
                             padding: 24,
                             borderRadius: 24,
-                            border: "4px dashed var(--secondary)",
+                            border: "4px solid var(--secondary)",
                             boxShadow: "0px 5px 11px 2px rgba(0,0,0,0.7)",
                         }}
                     >
@@ -410,7 +410,7 @@ function App() {
                     <s.Container flex={1} jc={"center"} ai={"center"}>
                         <StyledImg
                             alt={"example"}
-                            src={"/CSMTF/config/images/example.gif"}
+                            src={"/rotr/config/images/example.gif"}
                             style={{transform: "scaleX(-1)"}}
                         />
                     </s.Container>

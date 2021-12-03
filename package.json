@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "CutieSquad minting dapp is a quick and easy way to connect your smart contract and start minting NFTs.",
   "private": true,
-  "homepage": "/CSMTF/",
+  "homepage": "/rotr/",
   "dependencies": {
     "@walletconnect/web3-provider": "^1.6.6",
     "react": "^17.0.2",

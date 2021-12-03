@@ -1,18 +1,18 @@
 {
-  "CONTRACT_ADDRESS": "0xc48fcc4E8280284a4ab263114aa5E464d9839330",
-  "SCAN_LINK": "https://polygonscan.com/address/0xc48fcc4E8280284a4ab263114aa5E464d9839330",
+  "CONTRACT_ADDRESS": "0x40B0c49a458596cD4dE48015A6807f28f0b58c19",
+  "SCAN_LINK": "https://polygonscan.com/address/0x40B0c49a458596cD4dE48015A6807f28f0b58c19",
   "NETWORK": {
     "NAME": "Polygon",
     "SYMBOL": "MATIC",
     "ID": 137
   },
-  "NFT_NAME": "CutieSquad Meet The Fam",
+  "NFT_NAME": "CutieSquad The Rise of the Rebels",
   "SYMBOL": "CUTIE",
   "MAX_SUPPLY": 10000,
-  "WEI_COST": 10000000000000000,
-  "DISPLAY_COST": 0.01,
+  "WEI_COST": 25000000000000000000,
+  "DISPLAY_COST": 25,
   "GAS_LIMIT": 9000000,
-  "MARKETPLACE": "Opeansea",
-  "MARKETPLACE_LINK": "",
-  "SHOW_BACKGROUND": false
+  "MARKETPLACE": "OpenSea",
+  "MARKETPLACE_LINK": "https://opensea.io/collection/cutiesquad-the-rise-of-the-rebels",
+  "SHOW_BACKGROUND": true
 }
