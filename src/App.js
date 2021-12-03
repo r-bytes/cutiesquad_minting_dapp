@@ -6,6 +6,7 @@ import * as s from "./styles/globalStyles";
 import styled from "styled-components";
 import Web3 from "web3";
 
+import {waitTransaction} from "./util";
 
 const truncate = (input, len) =>
     input.length > len ? `${input.substring(0, len)}...` : input;
@@ -132,29 +133,42 @@ function App() {
         let totalGasLimit = String(gasLimit * mintAmount);
         console.log("Cost: ", totalCostWei);
         console.log("Gas limit: ", totalGasLimit);
-        setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
+        setFeedback(`Minting your ${CONFIG.NFT_NAME}...  Please confirm in your wallet`);
         setClaimingNft(true);
-        blockchain.smartContract.methods
-            .mint(mintAmount)
-            .send({
-                gasLimit: String(totalGasLimit),
-                to: CONFIG.CONTRACT_ADDRESS,
-                from: blockchain.account,
-                value: totalCostWei,
-            })
-            .once("error", (err) => {
-                console.log(err);
-                setFeedback("Sorry, something went wrong please try again later.");
-                setClaimingNft(false);
-            })
-            .then((receipt) => {
-                console.log(receipt);
-                setFeedback(
-                    `Congrats!! The ${CONFIG.NFT_NAME} is yours! go visit https://opensea.io/account to view it.`
-                );
-                setClaimingNft(false);
-                dispatch(fetchData(blockchain.account));
-            });
+        try {
+            blockchain.smartContract.methods
+                .mint(mintAmount)
+                .send({
+                    to: CONFIG.CONTRACT_ADDRESS,
+                    from: blockchain.account,
+                    value: totalCostWei,
+                })
+
+                .on('transactionHash', async function (transactionHash) {
+                    console.log("Gotten: " + transactionHash)
+                    setFeedback("Waiting for transaction confirmation");
+
+                    try {
+                        await waitTransaction(blockchain.web3, transactionHash, 500, 2)
+                        setFeedback(
+                            `Congrats!! The ${CONFIG.NFT_NAME} is yours! go visit https://opensea.io/account to view it.`
+                        );
+                        setClaimingNft(false);
+                        dispatch(fetchData(blockchain.account));
+                    } catch (err) {
+                        console.log(err)
+                        setFeedback("Sorry, something went wrong. Check the status of the transaction in your wallet");
+                        setClaimingNft(false);
+                    }
+                })
+                .on("error", (err) => {
+                    console.log(err);
+                    setFeedback("Sorry, something went wrong please try again later.");
+                    setClaimingNft(false);
+                })
+        } catch (err) {
+            console.log(err)
+        }
     };
 
     const decrementMintAmount = () => {
@@ -414,16 +428,6 @@ function App() {
                         Once you make the purchase, you cannot undo this action.
                     </s.TextDescription>
                     <s.SpacerSmall/>
-                    <s.TextDescription
-                        style={{
-                            textAlign: "center",
-                            color: "var(--primary-text)",
-                        }}
-                    >
-                        We have set the gas limit to {CONFIG.GAS_LIMIT} for the contract to
-                        successfully mint your NFT. We recommend that you don't lower the
-                        gas limit.
-                    </s.TextDescription>
                 </s.Container>
             </s.Container>
         </s.Screen>

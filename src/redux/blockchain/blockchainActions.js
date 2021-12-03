@@ -50,43 +50,48 @@ export const connect = () => {
             },
         });
         const CONFIG = await configResponse.json();
+        const providerOptions = {
+            // Example with WalletConnect provider
+            walletconnect: {
+                package: WalletConnectProvider,
+                options: {
+                    rpc: {
+                        137: "https://polygon-mainnet.g.alchemy.com/v2/XSmh1jwhlAmlGZgF3pqlY7wTYkNsJBDM",
+                    },
+                }
+            },
+        };
+        const web3Modal = new Web3Modal({
+            network: "matic",
+            cacheProvider: true,
+            providerOptions
+        });
         try {
-            const providerOptions = {
-                // Example with WalletConnect provider
-                walletconnect: {
-                    package: WalletConnectProvider,
-                    options: {
-                        rpc: {
-                            137: "https://polygon-mainnet.g.alchemy.com/v2/XSmh1jwhlAmlGZgF3pqlY7wTYkNsJBDM",
-                        },
-                    }
-                },
-            };
-            const web3Modal = new Web3Modal({
-                network: "matic",
-                cacheProvider: true,
-                providerOptions
-            });
+
 
             const provider = await web3Modal.connect();
 
             Web3EthContract.setProvider(provider);
             let web3 = new Web3(provider);
+
+
             try {
-                const accounts = await provider.request({
-                    method: "eth_requestAccounts",
-                });
-                const networkId = await provider.request({
-                    method: "net_version",
-                });
-                if (networkId == CONFIG.NETWORK.ID) {
-                    const SmartContractObj = new Web3EthContract(
+                const accounts = await web3.eth.getAccounts();
+
+                const address = accounts[0];
+
+                const networkId = await web3.eth.net.getId();
+
+               // const chainId = await web3.eth.chainId();
+
+                if (networkId === CONFIG.NETWORK.ID) {
+                    const SmartContractObj = new web3.eth.Contract(
                         abi,
                         CONFIG.CONTRACT_ADDRESS
                     );
                     dispatch(
                         connectSuccess({
-                            account: accounts[0],
+                            account: address,
                             smartContract: SmartContractObj,
                             web3: web3,
                         })
@@ -98,11 +103,16 @@ export const connect = () => {
                     provider.on("chainChanged", () => {
                         window.location.reload();
                     });
+                    provider.on("close", () => {
+                        window.location.reload();
+                    });
+
                     // Add listeners end
                 } else {
                     dispatch(connectFailed(`Change network to ${CONFIG.NETWORK.NAME}.`));
                 }
             } catch (err) {
+                console.log(err)
                 dispatch(connectFailed("Something went wrong."));
             }
         } catch (err) {
